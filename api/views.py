@@ -52,7 +52,7 @@ class PollViewSet(viewsets.ModelViewSet):
 
         if not request.user == poll.created_by:
             raise PermissionDenied(
-                'You can not delete this Poll. You don\'t own it.')
+                'You cannot delete this Poll. You don\'t own it.')
 
         return super().destroy(request, *args, **kwargs)
 
@@ -64,6 +64,15 @@ class ChoiceList(generics.ListCreateAPIView):
         queryset = Choice.objects.filter(poll_id=self.kwargs['pk'])
 
         return queryset
+
+    def post(self, request, *args, **kwargs):
+        poll = Poll.objects.get(pk=self.kwargs["pk"])
+
+        if not request.user == poll.created_by:
+            raise PermissionDenied(
+                'You cannot create Choice for this Poll. You don\'t own it.')
+
+        return super().post(request, *args, **kwargs)
 
 
 class VoteCreation(APIView):
