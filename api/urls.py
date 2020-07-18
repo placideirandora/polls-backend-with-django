@@ -1,7 +1,8 @@
 from django.urls import path
 from rest_framework.routers import DefaultRouter
 
-from .views import (Index, UserCreation, PollViewSet, ChoiceList, VoteCreation)
+from .views import (Index, UserCreation, LoginView,
+                    PollViewSet, ChoiceList, VoteCreation)
 
 # Create your urls here.
 
@@ -14,6 +15,8 @@ urlpatterns = [
     path('', Index.as_view(), name='index'),
     path('api/v1/auth/register/', UserCreation.as_view(),
          name='user_creation'),
+    path('api/v1/auth/login/', LoginView.as_view(),
+         name='login_view'),
     path('api/v1/polls/<int:pk>/choices/',
          ChoiceList.as_view(), name='choice_list'),
     path('api/v1/polls/<int:poll_pk>/choices/<int:choice_pk>/vote/',
