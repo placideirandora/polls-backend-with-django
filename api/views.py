@@ -3,6 +3,7 @@ from rest_framework import viewsets
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import generics
+from rest_framework.exceptions import PermissionDenied
 from rest_framework.status import (
     HTTP_201_CREATED, HTTP_400_BAD_REQUEST, HTTP_401_UNAUTHORIZED)
 
@@ -45,6 +46,15 @@ class LoginView(APIView):
 class PollViewSet(viewsets.ModelViewSet):
     queryset = Poll.objects.all()
     serializer_class = PollSerializer
+
+    def destroy(self, request, *args, **kwargs):
+        poll = Poll.objects.get(pk=self.kwargs['pk'])
+
+        if not request.user == poll.created_by:
+            raise PermissionDenied(
+                'You can not delete this Poll. You don\'t own it.')
+
+        return super().destroy(request, *args, **kwargs)
 
 
 class ChoiceList(generics.ListCreateAPIView):
