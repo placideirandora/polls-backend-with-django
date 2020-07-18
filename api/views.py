@@ -15,8 +15,18 @@ from .serializers import (UserSerializer, PollSerializer,
 
 
 class Index(APIView):
+    permission_classes = ()
+
     def get(self, request):
-        return Response({'message': 'Welcome to the Polls REST API'})
+        urls = [{'User Registration [POST]': 'api/v1/auth/register/'},
+                {'User Login [POST]': 'api/v1/auth/login/'},
+                {'Polls [CRUD]', 'api/v1/polls'},
+                {'Create and List Polls\' Choices [POST, GET]':
+                 'api/v1/polls/<int: pk > /choices/'},
+                {'Vote Polls\' Choice':
+                 'api/v1/polls/<int:poll_pk>/choices/<int:choice_pk>/vote/'}]
+        return Response({'message': 'Welcome to the Polls REST API',
+                         'Endpoints': urls})
 
 
 class UserCreation(generics.CreateAPIView):
