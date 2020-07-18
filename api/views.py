@@ -12,6 +12,8 @@ from .serializers import (UserSerializer, PollSerializer,
 
 
 class UserCreation(generics.CreateAPIView):
+    authentication_classes = ()
+    permission_classes = ()
     serializer_class = UserSerializer
 
 
