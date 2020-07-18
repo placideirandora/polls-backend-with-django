@@ -5,9 +5,14 @@ from rest_framework import generics
 from rest_framework.status import (HTTP_201_CREATED, HTTP_400_BAD_REQUEST)
 
 from .models import (Poll, Choice)
-from .serializers import (PollSerializer, ChoiceSerializer, VoteSerializer)
+from .serializers import (UserSerializer, PollSerializer,
+                          ChoiceSerializer, VoteSerializer)
 
 # Create your views here.
+
+
+class UserCreation(generics.CreateAPIView):
+    serializer_class = UserSerializer
 
 
 class Index(APIView):
@@ -29,7 +34,7 @@ class ChoiceList(generics.ListCreateAPIView):
         return queryset
 
 
-class CreateVote(APIView):
+class VoteCreation(APIView):
     serializer_class = VoteSerializer
 
     def post(self, request, poll_pk, choice_pk):
