@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
+import sys
 from dotenv import load_dotenv
 import django_heroku
 
@@ -102,6 +103,12 @@ DATABASES = {
         'PORT': os.getenv('DB_PORT'),
     }
 }
+
+# Config SQLite for Testing
+
+if 'test' in sys.argv or 'test_coverage' in sys.argv:
+    DATABASES['default']['ENGINE'] = 'django.db.backends.sqlite3'
+    DATABASES['default']['NAME'] = ':memory:'
 
 
 # Password validation
