@@ -41,3 +41,9 @@ $ navigate to 'http://localhost:8000/admin/' and login with the superuser creden
 ```
 $ use your favorite api testing platform
 ```
+
+### RUN TESTS
+
+```
+$ python3 manage.py test
+```
