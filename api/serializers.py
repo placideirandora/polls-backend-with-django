@@ -42,11 +42,8 @@ class UserSerializer(serializers.ModelSerializer):
 class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
-        fields = '__all__'
-        extra_kwargs = {'email': {'required': True},
-                        'firstname': {'required': True},
-                        'lastname': {'required': True},
-                        'username': {'required': True}}
+        fields = ['firstname', 'lastname', 'username', 'email',
+                  'country', 'city', 'bio']
 
 
 class VoteSerializer(serializers.ModelSerializer):

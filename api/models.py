@@ -11,6 +11,7 @@ class Profile(models.Model):
     email = models.CharField(max_length=40)
     country = models.CharField(max_length=15)
     city = models.CharField(max_length=15)
+    bio = models.TextField(max_length=300, default="")
     registered_on = models.DateTimeField(auto_now=True)
     user = models.OneToOneField(User, on_delete=models.CASCADE)
 

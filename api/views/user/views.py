@@ -2,9 +2,11 @@ from django.contrib.auth import authenticate
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import generics
+from rest_framework.exceptions import PermissionDenied
 from rest_framework.status import (HTTP_400_BAD_REQUEST, HTTP_401_UNAUTHORIZED)
 
-from ...serializers import UserSerializer
+from ...models import Profile
+from ...serializers import (UserSerializer, ProfileSerializer)
 
 # Create your views here.
 
@@ -32,3 +34,18 @@ class UserSignIn(APIView):
         else:
             return Response({'error': 'Invalid Credentials'},
                             status=HTTP_401_UNAUTHORIZED)
+
+
+class UserProfile(generics.RetrieveUpdateAPIView):
+    queryset = Profile.objects.all()
+    serializer_class = ProfileSerializer
+    lookup_field = 'username'
+
+    def update(self, request, *args, **kwargs):
+        profile = Profile.objects.get(username=kwargs['username'])
+
+        if not request.user == profile.user:
+            raise PermissionDenied('You cannot update this Profile.'
+                                   'You don\'t own it.')
+
+        return super().update(request, *args, **kwargs)

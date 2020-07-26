@@ -2,7 +2,7 @@ from django.urls import path
 from rest_framework.routers import DefaultRouter
 
 from .views.index import Index
-from .views.user.views import (UserSignUp, UserSignIn)
+from .views.user.views import (UserSignUp, UserSignIn, UserProfile)
 from .views.poll.views import PollViewSet
 from .views.choice.views import ChoiceList
 from .views.vote.views import VoteCreation
@@ -24,6 +24,8 @@ urlpatterns = [
          ChoiceList.as_view(), name='choice_list'),
     path('api/v1/polls/<int:poll_pk>/choices/<int:choice_pk>/vote/',
          VoteCreation.as_view(), name="create_vote"),
+    path('api/v1/profile/<str:username>/', UserProfile.as_view(),
+         name='user_profile_view'),
 ]
 
 urlpatterns += router.urls
