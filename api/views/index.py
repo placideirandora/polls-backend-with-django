@@ -13,8 +13,10 @@ class Index(APIView):
                 {'User Login [POST]': 'api/v1/auth/login/'},
                 {'Polls [CRUD]', 'api/v1/polls'},
                 {'Create and List Polls\' Choices [POST, GET]':
-                 'api/v1/polls/<int: pk > /choices/'},
+                 'api/v1/polls/<int:pk> /choices/'},
                 {'Vote Polls\' Choice':
-                 'api/v1/polls/<int:poll_pk>/choices/<int:choice_pk>/vote/'}]
+                 'api/v1/polls/<int:poll_pk>/choices/<int:choice_pk>/vote/'},
+                {'Retrieve and Update User Profile [GET, UPDATE]':
+                 'api/v1/profile/<str:username>'}]
         return Response({'message': 'Welcome to the Polls REST API',
                          'Endpoints': urls}, status=HTTP_200_OK)
