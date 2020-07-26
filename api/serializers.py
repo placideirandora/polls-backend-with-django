@@ -47,6 +47,15 @@ class ProfileSerializer(serializers.ModelSerializer):
 
 
 class VoteSerializer(serializers.ModelSerializer):
+    voted_by = serializers.SerializerMethodField(read_only=True)
+    poll = serializers.SerializerMethodField(read_only=True)
+
+    def get_voted_by(self, obj):
+        return obj.voted_by.username
+
+    def get_poll(self, obj):
+        return obj.poll.question
+
     class Meta:
         model = Vote
         fields = '__all__'
@@ -61,7 +70,10 @@ class ChoiceSerializer(serializers.ModelSerializer):
 
 
 class PollSerializer(serializers.ModelSerializer):
-    choices = ChoiceSerializer(many=True, read_only=True, required=False)
+    created_by = serializers.SerializerMethodField(read_only=True)
+
+    def get_created_by(self, obj):
+        return obj.created_by.username
 
     class Meta:
         model = Poll
