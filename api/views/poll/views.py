@@ -19,3 +19,12 @@ class PollViewSet(viewsets.ModelViewSet):
                 'You cannot delete this Poll. You don\'t own it.')
 
         return super().destroy(request, *args, **kwargs)
+
+    def get_queryset(self):
+        queryset = Poll.objects.all()
+        username = self.request.query_params.get('username', None)
+
+        if username is not None:
+            return queryset.filter(created_by__username=username)
+
+        return queryset
