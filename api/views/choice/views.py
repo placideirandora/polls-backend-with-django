@@ -1,5 +1,6 @@
 from rest_framework import generics
 from rest_framework.exceptions import PermissionDenied
+from rest_framework.filters import SearchFilter, OrderingFilter
 
 from ...models import (Poll, Choice)
 from ...serializers import ChoiceSerializer
@@ -9,6 +10,8 @@ from ...serializers import ChoiceSerializer
 
 class ChoiceList(generics.ListCreateAPIView):
     serializer_class = ChoiceSerializer
+    filter_backends = (SearchFilter, OrderingFilter)
+    search_fields = ['choice_text']
 
     def get_queryset(self):
         queryset = Choice.objects.filter(poll_id=self.kwargs['pk'])
