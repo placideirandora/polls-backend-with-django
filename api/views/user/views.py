@@ -21,6 +21,7 @@ class UserSignIn(APIView):
     def post(self, request,):
         username = request.data.get('username')
         password = request.data.get('password')
+
         user = authenticate(username=username, password=password)
 
         if username is None or password is None:
